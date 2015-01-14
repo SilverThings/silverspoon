@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>io.silverspoon</groupId>
+  <artifactId>silverspoon-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>silverspoon.io :: parent</name>
+  <description>Enterprise Ready IoT Platform.</description>
+
+  <url>http://www.silverspoon.io</url>
+  <inceptionYear>2015</inceptionYear>
+  <developers>
+    <developer>
+      <name>Stefan Bunciak</name>
+      <email>pipistik.bunciak@gmail.com</email>
+      <roles>
+        <role>Owner</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.bundle-plugin>2.5.3</version.bundle-plugin>
+    <version.karaf>4.0.0.M1</version.karaf>
+    <version.camel>2.14.1</version.camel>
+  </properties>
+
+  <repositories></repositories>
+
+  <modules>
+    <module>silverspoon-bom</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.felix</groupId>
+          <artifactId>maven-bundle-plugin</artifactId>
+          <version>${version.bundle-plugin}</version>
+          <extensions>true</extensions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  <issueManagement>
+    <url>https://github.com/px3/silverspoon/issues</url>
+    <system>github</system>
+  </issueManagement>
+  <organization>
+    <name>px3</name>
+    <url>http://www.silverspoon.io</url>
+  </organization>
+</project>
