@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -5,11 +6,22 @@
   <artifactId>silverspoon-parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>silverspoon.io :: parent</name>
-  <description>Enterprise Ready IoT Platform.</description>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>Simplistic IoT Platform.</description>
 
   <url>http://www.silverspoon.io</url>
   <inceptionYear>2015</inceptionYear>
+
+  <issueManagement>
+    <url>https://github.com/px3/silverspoon/issues</url>
+    <system>github</system>
+  </issueManagement>
+
+  <organization>
+    <name>px3</name>
+    <url>http://www.silverspoon.io</url>
+  </organization>
+
   <developers>
     <developer>
       <name>Stefan Bunciak</name>
@@ -20,37 +32,57 @@
     </developer>
   </developers>
 
+  <licenses>
+    <license>
+      <name>Apache License Version 2.0</name>
+      <url>http://repository.jboss.org/licenses/apache-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <version.bundle-plugin>2.5.3</version.bundle-plugin>
-    <version.karaf>4.0.0.M1</version.karaf>
+    <version.bulldog>0.1.1-SNAPSHOT</version.bulldog>
     <version.camel>2.14.1</version.camel>
+    <version.camel.gpio>1.1-SNAPSHOT</version.camel.gpio>
+    <version.amq>5.9.0</version.amq>
+    <version.slf4j>1.7.5</version.slf4j>
+    <version.log4j>1.2.17</version.log4j>
+    <version.gpg.plugin>1.5</version.gpg.plugin>
+    <version.release.plugin>2.5</version.release.plugin>
+    <version.compiler.plugin>3.2</version.compiler.plugin>
+    <version.jar.plugin>2.5</version.jar.plugin>
+    <version.source.plugin>2.4</version.source.plugin>
+    <version.javadoc.plugin>2.10.1</version.javadoc.plugin>
+    <version.junit>4.11</version.junit>
   </properties>
 
-  <repositories></repositories>
+  <repositories />
 
   <modules>
     <module>silverspoon-bom</module>
+    <module>silverspoon-archetypes</module>
   </modules>
 
   <build>
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.apache.felix</groupId>
-          <artifactId>maven-bundle-plugin</artifactId>
-          <version>${version.bundle-plugin}</version>
-          <extensions>true</extensions>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${version.compiler.plugin}</version>
+          <configuration>
+            <source>1.7</source>
+            <target>1.7</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.camel</groupId>
+          <artifactId>camel-maven-plugin</artifactId>
+          <version>${version.camel}</version>
         </plugin>
       </plugins>
     </pluginManagement>
   </build>
-  <issueManagement>
-    <url>https://github.com/px3/silverspoon/issues</url>
-    <system>github</system>
-  </issueManagement>
-  <organization>
-    <name>px3</name>
-    <url>http://www.silverspoon.io</url>
-  </organization>
+
 </project>

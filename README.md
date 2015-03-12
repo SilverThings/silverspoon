@@ -1,2 +1,2 @@
-# silverspoon
-Java Enterprise-ready IoT Platform
+# Silverspoon
+Simplistic IoT Platform

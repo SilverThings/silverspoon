@@ -8,37 +8,100 @@
   </parent>
   <artifactId>silverspoon-bom</artifactId>
   <packaging>pom</packaging>
-  <name>silverspoon.io :: Bill of Materials</name>
+  <name>${project.groupId}:${project.artifactId}</name>
 
   <dependencyManagement>
     <dependencies>
+      <!-- Apache Camel -->
       <dependency>
         <groupId>org.apache.camel</groupId>
         <artifactId>camel-core</artifactId>
         <version>${version.camel}</version>
-        <type>bundle</type>
       </dependency>
       <dependency>
-        <groupId>org.apache.karaf.features</groupId>
-        <artifactId>framework</artifactId>
-        <version>${version.karaf}</version>
-        <type>kar</type>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-mqtt</artifactId>
+        <version>${version.camel}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.karaf.features</groupId>
-        <artifactId>standard</artifactId>
-        <version>${version.karaf}</version>
-        <classifier>features</classifier>
-        <type>xml</type>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-spring</artifactId>
+        <version>${version.camel}</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.karaf.features</groupId>
-        <artifactId>spring</artifactId>
-        <version>${version.karaf}</version>
-        <classifier>features</classifier>
-        <type>xml</type>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-jetty</artifactId>
+        <version>${version.camel}</version>
+      </dependency>
+      <!-- Silverspoon.io Camel Components -->
+      <dependency>
+        <groupId>io.silverspoon</groupId>
+        <artifactId>camel-gpio</artifactId>
+        <version>${version.camel.gpio}</version>
+      </dependency>
+      <!-- Bulldog Library -->
+      <dependency>
+        <groupId>io.silverspoon</groupId>
+        <artifactId>bulldog-board-beagleboneblack</artifactId>
+        <version>${version.bulldog}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.silverspoon</groupId>
+        <artifactId>bulldog-board-cubieboard</artifactId>
+        <version>${version.bulldog}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.silverspoon</groupId>
+        <artifactId>bulldog-board-raspberrypi</artifactId>
+        <version>${version.bulldog}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.silverspoon</groupId>
+        <artifactId>bulldog-devices</artifactId>
+        <version>${version.bulldog}</version>
+      </dependency>
+      <!-- Logging -->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${version.slf4j}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${version.slf4j}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${version.slf4j}</version>
+      </dependency>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${version.log4j}</version>
+      </dependency>
+      <!-- active-mq -->
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>activemq-camel</artifactId>
+        <version>${version.amq}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>activemq-mqtt</artifactId>
+        <version>${version.amq}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>activemq-stomp</artifactId>
+        <version>${version.amq}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.activemq</groupId>
+        <artifactId>activemq-amqp</artifactId>
+        <version>${version.amq}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
-
 </project>
