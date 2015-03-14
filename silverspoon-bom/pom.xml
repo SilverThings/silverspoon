@@ -11,6 +11,11 @@
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
 
+  <properties>
+    <!-- Version is align accross whole Silverspoon.io -->
+    <version.silverspoon>${project.version}</version.silverspoon>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <!-- Apache Camel -->
@@ -38,63 +43,63 @@
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>camel-gpio</artifactId>
-        <version>${version.camel.gpio}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <!-- Bulldog Library -->
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-board-beagleboneblack</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-board-cubieboard</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-board-raspberrypi</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-devices</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-core</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux-native</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux-native-beagleboneblack-hardfp</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux-native-beagleboneblack-softfp</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux-native-cubieboard</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux-native-raspberrypi</artifactId>
-        <version>${version.bulldog}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <!-- Logging -->
       <dependency>
