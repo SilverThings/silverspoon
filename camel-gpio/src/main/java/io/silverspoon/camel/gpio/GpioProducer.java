@@ -89,7 +89,7 @@ public class GpioProducer extends DefaultProducer {
                if (log.isDebugEnabled()) {
                   log.debug("Waiting for " + pulseInMicroseconds + " microseconds.");
                }
-               BulldogUtil.sleepNs(pulseInMicroseconds);
+               BulldogUtil.sleepNs(pulseInMicroseconds * 1000L);
                if (log.isDebugEnabled()) {
                   log.debug("Setting pin " + endpoint.getPinName() + " to HIGH state.");
                }
