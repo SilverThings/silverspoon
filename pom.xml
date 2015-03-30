@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.silverspoon</groupId>
   <artifactId>silverspoon-parent</artifactId>
-  <version>0.1.2</version>
+  <version>0.2.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
   <description>Simplistic IoT Platform.</description>
@@ -170,6 +170,22 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <!-- Generate sources by default -->
+    <plugins>
+      <!-- Attach source jar to all builds. Runs during the package phase. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <!-- Release profile - create javadocs and sign jars. -->

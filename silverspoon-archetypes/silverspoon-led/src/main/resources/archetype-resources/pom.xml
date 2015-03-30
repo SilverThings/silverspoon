@@ -10,7 +10,7 @@
   <name>Silverspoon.io archetype: LED Controlled by REST API</name>
 
   <properties>
-    <version.silverspoon>0.1.2</version.silverspoon>
+    <version.silverspoon>0.2.0-SNAPSHOT</version.silverspoon>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <version.camel.plugin>2.14.1</version.camel.plugin>
