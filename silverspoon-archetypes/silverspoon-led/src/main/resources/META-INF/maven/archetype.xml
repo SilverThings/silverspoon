@@ -4,5 +4,6 @@
   <resources>
     <resource>src/main/resources/META-INF/spring/camelContext.xml</resource>
     <resource>src/main/resources/gpio.properties</resource>
+    <resource>src/main/resources/log4j.properties</resource>
   </resources>
 </archetype>

@@ -4,12 +4,17 @@
   <parent>
     <groupId>io.silverspoon</groupId>
     <artifactId>silverspoon-parent</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.1.1-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>silverspoon-bom</artifactId>
   <packaging>pom</packaging>
   <name>${project.groupId}:${project.artifactId}</name>
+
+  <properties>
+    <!-- Version is align accross whole Silverspoon.io -->
+    <version.silverspoon>${project.version}</version.silverspoon>
+  </properties>
 
   <dependencyManagement>
     <dependencies>
@@ -38,7 +43,7 @@
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>camel-gpio</artifactId>
-        <version>${version.camel.gpio}</version>
+        <version>${version.silverspoon}</version>
       </dependency>
       <!-- Bulldog Library -->
       <dependency>
@@ -78,12 +83,7 @@
       </dependency>
       <dependency>
         <groupId>io.silverspoon</groupId>
-        <artifactId>bulldog-linux-native-beagleboneblack-hardfp</artifactId>
-        <version>${version.bulldog}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.silverspoon</groupId>
-        <artifactId>bulldog-linux-native-beagleboneblack-softfp</artifactId>
+        <artifactId>bulldog-linux-native-beagleboneblack</artifactId>
         <version>${version.bulldog}</version>
       </dependency>
       <dependency>
