@@ -16,6 +16,10 @@
  */
 package io.silverspoon.camel.gpio;
 
+import io.silverspoon.device.api.board.BoardFactory;
+import io.silverspoon.device.api.board.GpioBoard;
+import io.silverspoon.device.api.board.NoSupportedBoardFoundException;
+
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
@@ -25,9 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import io.silverspoon.bulldog.core.platform.Board;
-import io.silverspoon.bulldog.core.platform.Platform;
 
 /**
  * Represents a GPIO endpoint.
@@ -42,13 +43,13 @@ public class GpioEndpoint extends DefaultEndpoint {
 
    private final String pinName;
 
-   private final Board board;
+   private final GpioBoard board;
 
    private String value = null;
 
    private long pulseInMicroseconds = 0L;
 
-   public GpioEndpoint(String uri, GpioComponent component) {
+   public GpioEndpoint(String uri, GpioComponent component) throws NoSupportedBoardFoundException {
       super(uri, component);
       final Matcher m = URI_PATTERN.matcher(uri);
       if (m.matches()) {
@@ -57,7 +58,7 @@ public class GpioEndpoint extends DefaultEndpoint {
          throw new RuntimeException("Specified URI (" + uri + ") does not match the requested pattern (" + URI_PATTERN_STRING + ")");
       }
 
-      board = Platform.createBoard();
+      board = BoardFactory.getBoardInstance();
       if (log.isInfoEnabled()) {
          log.info("Board found: " + board.getName());
       }
@@ -79,7 +80,7 @@ public class GpioEndpoint extends DefaultEndpoint {
       return this.pinName;
    }
 
-   protected Board getBoard() {
+   protected GpioBoard getBoard() {
       return this.board;
    }
 

@@ -39,6 +39,22 @@
         <artifactId>camel-jetty</artifactId>
         <version>${version.camel}</version>
       </dependency>
+      <!-- Silverspoon Device API -->
+      <dependency>
+        <groupId>io.silverspoon</groupId>
+        <artifactId>silverspoon-device-api</artifactId>
+        <version>${version.silverspoon}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.silverspoon</groupId>
+        <artifactId>pi4j-device-impl</artifactId>
+        <version>${version.silverspoon}</version>
+      </dependency>
+<!--       <dependency> -->
+<!--         <groupId>io.silverspoon</groupId> -->
+<!--         <artifactId>bulldog-device-impl</artifactId> -->
+<!--         <version>${version.silverspoon}</version> -->
+<!--       </dependency> -->
       <!-- Silverspoon.io Camel Components -->
       <dependency>
         <groupId>io.silverspoon</groupId>
@@ -95,6 +111,16 @@
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux-native-raspberrypi</artifactId>
         <version>${version.bulldog}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.pi4j</groupId>
+        <artifactId>pi4j-core</artifactId>
+        <version>${version.pi4j}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.pi4j</groupId>
+        <artifactId>pi4j-device</artifactId>
+        <version>${version.pi4j}</version>
       </dependency>
       <!-- Logging -->
       <dependency>

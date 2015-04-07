@@ -77,14 +77,18 @@
     <version.junit>4.11</version.junit>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <version.pi4j>1.1-SNAPSHOT</version.pi4j>
   </properties>
 
   <repositories />
 
   <modules>
     <module>silverspoon-bom</module>
+    <module>silverspoon-device-api</module>
     <module>silverspoon-archetypes</module>
     <module>camel-gpio</module>
+    <module>pi4j-device-impl</module>
+    <module>bulldog-device-impl</module>
   </modules>
 
   <build>

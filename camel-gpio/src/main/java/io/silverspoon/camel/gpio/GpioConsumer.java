@@ -16,18 +16,16 @@
  */
 package io.silverspoon.camel.gpio;
 
+import io.silverspoon.device.api.button.Button;
+import io.silverspoon.device.api.button.ButtonListener;
+import io.silverspoon.device.api.gpio.DigitalInputPin;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.impl.ScheduledPollConsumer;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
-
-import io.silverspoon.bulldog.core.Signal;
-import io.silverspoon.bulldog.core.gpio.DigitalInput;
-import io.silverspoon.bulldog.core.gpio.Pin;
-import io.silverspoon.bulldog.devices.switches.Button;
-import io.silverspoon.bulldog.devices.switches.ButtonListener;
 
 /**
  * The GPIO consumer.
@@ -36,7 +34,7 @@ import io.silverspoon.bulldog.devices.switches.ButtonListener;
  */
 public class GpioConsumer extends ScheduledPollConsumer {
    private final GpioEndpoint endpoint;
-   private final Pin pin;
+   private final DigitalInputPin inputPin;
    private final Button button;
    private final GpioButtonListener cbListener;
    private Queue<String> eventQueue = new LinkedBlockingQueue<>();
@@ -44,12 +42,12 @@ public class GpioConsumer extends ScheduledPollConsumer {
    public GpioConsumer(GpioEndpoint endpoint, Processor processor) {
       super(endpoint, processor);
       this.endpoint = endpoint;
-      pin = endpoint.getBoard().getPin(endpoint.getPinName());
+      inputPin = endpoint.getBoard().getDigitalInputPin(endpoint.getPinName());
       if (log.isInfoEnabled()) {
-         log.info("Pin attached: " + pin.getName());
+         log.info("Pin attached: " + inputPin.getName());
       }
 
-      button = new Button(pin.as(DigitalInput.class), Signal.High);
+      button = endpoint.getBoard().getButton(inputPin);
       cbListener = new GpioButtonListener();
    }
 

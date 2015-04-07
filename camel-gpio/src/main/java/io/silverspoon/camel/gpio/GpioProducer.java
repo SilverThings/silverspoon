@@ -16,14 +16,12 @@
  */
 package io.silverspoon.camel.gpio;
 
+import io.silverspoon.device.api.gpio.DigitalOutputPin;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import io.silverspoon.bulldog.core.gpio.DigitalOutput;
-import io.silverspoon.bulldog.core.gpio.Pin;
-import io.silverspoon.bulldog.core.util.BulldogUtil;
 
 /**
  * The GPIO producer.
@@ -33,19 +31,16 @@ import io.silverspoon.bulldog.core.util.BulldogUtil;
 public class GpioProducer extends DefaultProducer {
    private static final transient Logger Log = LoggerFactory.getLogger(GpioProducer.class);
    private GpioEndpoint endpoint;
-   private final Pin pin;
-   private DigitalOutput output;
+   private DigitalOutputPin outputPin;
 
    public GpioProducer(GpioEndpoint endpoint) {
       super(endpoint);
       this.endpoint = endpoint;
 
-      pin = endpoint.getBoard().getPin(endpoint.getPinName());
+      outputPin = endpoint.getBoard().getDigitalOutputPin(endpoint.getPinName());
       if (log.isInfoEnabled()) {
-         log.info("Pin attached: " + pin.getName());
+         log.info("Pin attached: " + outputPin.getName());
       }
-
-      output = pin.as(DigitalOutput.class);
    }
 
    public void process(Exchange exchange) throws Exception {
@@ -68,36 +63,45 @@ public class GpioProducer extends DefaultProducer {
             if (log.isDebugEnabled()) {
                log.debug("Setting pin " + endpoint.getPinName() + " to HIGH state.");
             }
-            output.high();
+            outputPin.high();
             if (pulseInMicroseconds > 0) {
                if (log.isDebugEnabled()) {
                   log.debug("Waiting for " + pulseInMicroseconds + " microseconds.");
                }
-               BulldogUtil.sleepNs(pulseInMicroseconds * 1000L);
+               this.sleepNs(pulseInMicroseconds * 1000L);
                if (log.isDebugEnabled()) {
                   log.debug("Setting pin " + endpoint.getPinName() + " to LOW state.");
                }
-               output.low();
+               outputPin.low();
             }
             break;
          case GpioComponent.LOW:
             if (log.isDebugEnabled()) {
                log.debug("Setting pin " + endpoint.getPinName() + " to LOW state.");
             }
-            output.low();
+            outputPin.low();
             if (pulseInMicroseconds > 0) {
                if (log.isDebugEnabled()) {
                   log.debug("Waiting for " + pulseInMicroseconds + " microseconds.");
                }
-               BulldogUtil.sleepNs(pulseInMicroseconds * 1000L);
+               this.sleepNs(pulseInMicroseconds * 1000L);
                if (log.isDebugEnabled()) {
                   log.debug("Setting pin " + endpoint.getPinName() + " to HIGH state.");
                }
-               output.high();
+               outputPin.high();
             }
             break;
          default:
             // not supposed to happen
       }
+   }
+
+   private void sleepNs(final long ns) {
+      final long start = System.nanoTime();
+      final long end = start + ns;
+      long now = 0;
+      do {
+         now = System.nanoTime();
+      } while (now < end);
    }
 }
