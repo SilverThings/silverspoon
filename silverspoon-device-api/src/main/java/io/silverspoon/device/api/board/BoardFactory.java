@@ -27,6 +27,8 @@ import java.util.ServiceLoader;
  */
 public class BoardFactory {
 
+   private static GpioBoard board = null;
+   
    /**
     * Loads GpioBoard implementation from classpath.
     * 
@@ -34,10 +36,15 @@ public class BoardFactory {
     * @throws NoSupportedBoardFoundException if no GpioBoard implementation is found on classpath.
     */
    public static GpioBoard getBoardInstance() throws NoSupportedBoardFoundException {
-      for (GpioBoard board : ServiceLoader.load(GpioBoard.class)) {
-         return board;
+      if (board == null ) {
+         for (GpioBoard boardFound : ServiceLoader.load(GpioBoard.class)) {
+            board = boardFound;
+            return board;
+         } 
+         // no board found
+         throw new NoSupportedBoardFoundException();
       }
       
-      throw new NoSupportedBoardFoundException();
+      return board;
    }
 }

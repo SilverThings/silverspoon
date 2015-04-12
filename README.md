@@ -2,3 +2,7 @@
 Simplistic IoT Platform
 
 [![Build Status](https://travis-ci.org/px3/silverspoon.svg?branch=master)](https://travis-ci.org/px3/silverspoon)
+
+# Architecture
+
+![Silverspoon Architecture](doc/img/arch.svg "Silverspoon Architecture")

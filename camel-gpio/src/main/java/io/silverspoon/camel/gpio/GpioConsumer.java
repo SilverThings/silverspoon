@@ -16,6 +16,7 @@
  */
 package io.silverspoon.camel.gpio;
 
+import io.silverspoon.device.api.board.NoSupportedBoardFoundException;
 import io.silverspoon.device.api.button.Button;
 import io.silverspoon.device.api.button.ButtonListener;
 import io.silverspoon.device.api.gpio.DigitalInputPin;
@@ -23,6 +24,8 @@ import io.silverspoon.device.api.gpio.DigitalInputPin;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.impl.ScheduledPollConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -34,20 +37,23 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class GpioConsumer extends ScheduledPollConsumer {
    private final GpioEndpoint endpoint;
-   private final DigitalInputPin inputPin;
-   private final Button button;
+   private static DigitalInputPin inputPin = null;
+   private static Button button = null;
    private final GpioButtonListener cbListener;
    private Queue<String> eventQueue = new LinkedBlockingQueue<>();
+
+   private static final transient Logger log = LoggerFactory.getLogger(GpioConsumer.class);
 
    public GpioConsumer(GpioEndpoint endpoint, Processor processor) {
       super(endpoint, processor);
       this.endpoint = endpoint;
-      inputPin = endpoint.getBoard().getDigitalInputPin(endpoint.getPinName());
-      if (log.isInfoEnabled()) {
+
+      inputPin = GpioConsumer.getDigitalInputPin(endpoint.getPinName());
+      if (log.isInfoEnabled() && inputPin != null) {
          log.info("Pin attached: " + inputPin.getName());
       }
 
-      button = endpoint.getBoard().getButton(inputPin);
+      button = GpioConsumer.getButton(inputPin);
       cbListener = new GpioButtonListener();
    }
 
@@ -90,6 +96,30 @@ public class GpioConsumer extends ScheduledPollConsumer {
       if (log.isInfoEnabled()) {
          log.info("Stopping " + cbListener.getClass().getSimpleName());
       }
+   }
+
+   private static DigitalInputPin getDigitalInputPin(String pinName) {
+      if (inputPin == null) {
+         try {
+            inputPin = GpioEndpoint.getBoard().getDigitalInputPin(pinName);
+         } catch (NoSupportedBoardFoundException e) {
+            log.error("Cannot create digital input PIN as there is no suitable board. ", e);
+         }
+      }
+
+      return inputPin;
+   }
+
+   private static Button getButton(DigitalInputPin pin) {
+      if (button == null) {
+         try {
+            button = GpioEndpoint.getBoard().getButton(pin);
+         } catch (NoSupportedBoardFoundException e) {
+            log.error("Cannot create button as there is no suitable board. ", e);
+         }
+      }
+
+      return button;
    }
 
    private class GpioButtonListener implements ButtonListener {

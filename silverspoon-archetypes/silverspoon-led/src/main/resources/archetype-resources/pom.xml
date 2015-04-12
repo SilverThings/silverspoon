@@ -34,6 +34,10 @@
       <artifactId>camel-gpio</artifactId>
     </dependency>
     <dependency>
+      <groupId>io.silverspoon</groupId>
+      <artifactId>pi4j-device-impl</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.camel</groupId>
       <artifactId>camel-spring</artifactId>
     </dependency>
@@ -70,43 +74,5 @@
     </plugins>
   </build>
 
-  <profiles>
-    <!-- Profiles for different boards -->
-    <profile>
-      <id>RaspberryPi</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>io.silverspoon</groupId>
-          <artifactId>bulldog-board-raspberrypi</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>BeagleBoneBlack</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>io.silverspoon</groupId>
-          <artifactId>bulldog-board-beagleboneblack</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-    <profile>
-      <id>CubieBoard</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>io.silverspoon</groupId>
-          <artifactId>bulldog-board-cubieboard</artifactId>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
+  
 </project>

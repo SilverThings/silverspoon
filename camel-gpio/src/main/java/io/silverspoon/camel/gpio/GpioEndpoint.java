@@ -27,6 +27,8 @@ import org.apache.camel.impl.DefaultEndpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,30 +38,31 @@ import java.util.regex.Pattern;
  * @author Pavel Macík <pavel.macik@gmail.com>
  */
 public class GpioEndpoint extends DefaultEndpoint {
-   public static final String URI_PATTERN_STRING = "gpio://(\\w+)(\\?[\\w=&]+)?";
+   public static final String URI_PATTERN_STRING = "gpio://([a-zA-Z0-9_%]+)(\\?[\\w=&%]+)?";
    public static final Pattern URI_PATTERN = Pattern.compile(URI_PATTERN_STRING);
 
    private static final Logger log = LoggerFactory.getLogger(GpioEndpoint.class);
 
+   private static GpioBoard board = null;
+   
    private final String pinName;
-
-   private final GpioBoard board;
 
    private String value = null;
 
    private long pulseInMicroseconds = 0L;
 
-   public GpioEndpoint(String uri, GpioComponent component) throws NoSupportedBoardFoundException {
+   public GpioEndpoint(String uri, GpioComponent component) throws NoSupportedBoardFoundException, UnsupportedEncodingException {
       super(uri, component);
       final Matcher m = URI_PATTERN.matcher(uri);
       if (m.matches()) {
-         pinName = m.group(1).toUpperCase();
+         // decode GPIO Pin name (might containg special characters like %20
+         pinName = URLDecoder.decode(m.group(1).toUpperCase(), "UTF-8");
       } else {
          throw new RuntimeException("Specified URI (" + uri + ") does not match the requested pattern (" + URI_PATTERN_STRING + ")");
       }
 
-      board = BoardFactory.getBoardInstance();
-      if (log.isInfoEnabled()) {
+      board = getBoard();
+      if (log.isInfoEnabled() && board != null) {
          log.info("Board found: " + board.getName());
       }
    }
@@ -80,8 +83,8 @@ public class GpioEndpoint extends DefaultEndpoint {
       return this.pinName;
    }
 
-   protected GpioBoard getBoard() {
-      return this.board;
+   protected static GpioBoard getBoard() throws NoSupportedBoardFoundException {
+      return BoardFactory.getBoardInstance();
    }
 
    protected String getValue() {

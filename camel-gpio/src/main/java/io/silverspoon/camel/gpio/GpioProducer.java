@@ -16,6 +16,7 @@
  */
 package io.silverspoon.camel.gpio;
 
+import io.silverspoon.device.api.board.NoSupportedBoardFoundException;
 import io.silverspoon.device.api.gpio.DigitalOutputPin;
 
 import org.apache.camel.Exchange;
@@ -29,16 +30,20 @@ import org.slf4j.LoggerFactory;
  * @author Pavel Macík <pavel.macik@gmail.com>
  */
 public class GpioProducer extends DefaultProducer {
-   private static final transient Logger Log = LoggerFactory.getLogger(GpioProducer.class);
+   
+   private static final transient Logger log = LoggerFactory.getLogger(GpioProducer.class);
+   
    private GpioEndpoint endpoint;
-   private DigitalOutputPin outputPin;
+   
+   private static DigitalOutputPin outputPin = null;
 
    public GpioProducer(GpioEndpoint endpoint) {
       super(endpoint);
       this.endpoint = endpoint;
 
-      outputPin = endpoint.getBoard().getDigitalOutputPin(endpoint.getPinName());
-      if (log.isInfoEnabled()) {
+      outputPin = GpioProducer.getDigitalOutputPin(endpoint.getPinName());
+      
+      if (log.isInfoEnabled() && outputPin != null) {
          log.info("Pin attached: " + outputPin.getName());
       }
    }
@@ -103,5 +108,16 @@ public class GpioProducer extends DefaultProducer {
       do {
          now = System.nanoTime();
       } while (now < end);
+   }
+   
+   private static DigitalOutputPin getDigitalOutputPin(String pinName) {
+      if (outputPin == null) {
+         try {
+            outputPin = GpioEndpoint.getBoard().getDigitalOutputPin(pinName);
+         } catch (NoSupportedBoardFoundException e) {
+            log.error("Cannot create digital output PIN as there is no suitable board. ", e);
+         }
+      }
+      return outputPin;
    }
 }
