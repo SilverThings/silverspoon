@@ -24,25 +24,30 @@ import org.apache.camel.impl.DefaultProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * The GPIO producer.
  *
  * @author Pavel Macík <pavel.macik@gmail.com>
  */
 public class GpioProducer extends DefaultProducer {
-   
+
    private static final transient Logger log = LoggerFactory.getLogger(GpioProducer.class);
-   
+
    private GpioEndpoint endpoint;
-   
-   private static DigitalOutputPin outputPin = null;
+
+   private static Map<String, DigitalOutputPin> outputPins = Collections.synchronizedMap(new HashMap<String, DigitalOutputPin>());
+   private DigitalOutputPin outputPin = null;
 
    public GpioProducer(GpioEndpoint endpoint) {
       super(endpoint);
       this.endpoint = endpoint;
 
       outputPin = GpioProducer.getDigitalOutputPin(endpoint.getPinName());
-      
+
       if (log.isInfoEnabled() && outputPin != null) {
          log.info("Pin attached: " + outputPin.getName());
       }
@@ -109,15 +114,16 @@ public class GpioProducer extends DefaultProducer {
          now = System.nanoTime();
       } while (now < end);
    }
-   
+
    private static DigitalOutputPin getDigitalOutputPin(String pinName) {
-      if (outputPin == null) {
+      if (!outputPins.containsKey(pinName)) {
          try {
-            outputPin = GpioEndpoint.getBoard().getDigitalOutputPin(pinName);
+            outputPins.put(pinName, GpioEndpoint.getBoard().getDigitalOutputPin(pinName));
          } catch (NoSupportedBoardFoundException e) {
             log.error("Cannot create digital output PIN as there is no suitable board. ", e);
          }
       }
-      return outputPin;
+
+      return outputPins.get(pinName);
    }
 }
