@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -6,17 +5,13 @@
     <groupId>io.silverspoon</groupId>
     <artifactId>silverspoon-parent</artifactId>
     <version>0.2.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>camel-gpio</artifactId>
-  <packaging>jar</packaging>
+  <artifactId>bulldog-device-impl</artifactId>
   <name>${project.groupId}:${project.artifactId}</name>
 
   <properties>
-    <!--Version of camel-gpio is aligned with Silverspoon -->
+    <!--Version is aligned with Silverspoon -->
     <version.silverspoon>${project.version}</version.silverspoon>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
   <dependencyManagement>
@@ -33,16 +28,16 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.silverspoon</groupId>
       <artifactId>silverspoon-device-api</artifactId>
     </dependency>
     <dependency>
       <groupId>io.silverspoon</groupId>
-      <artifactId>pi4j-device-impl</artifactId>
+      <artifactId>bulldog-board-raspberrypi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.silverspoon</groupId>
+      <artifactId>bulldog-devices</artifactId>
     </dependency>
   </dependencies>
 </project>

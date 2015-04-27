@@ -35,6 +35,7 @@ public class GpioComponent extends DefaultComponent {
       final GpioEndpoint endpoint = new GpioEndpoint(uri, this);
       setProperties(endpoint, parameters);
       final String pinValue = endpoint.getValue();
+      // TODO(pmacik): implement capability of setting value from exchange body (e.g. ${body.value}
       if (pinValue != null) {
          switch (pinValue) {
             case HIGH:

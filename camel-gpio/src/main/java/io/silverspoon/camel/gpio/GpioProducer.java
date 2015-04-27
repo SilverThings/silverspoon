@@ -16,14 +16,17 @@
  */
 package io.silverspoon.camel.gpio;
 
+import io.silverspoon.device.api.board.NoSupportedBoardFoundException;
+import io.silverspoon.device.api.gpio.DigitalOutputPin;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import io.silverspoon.bulldog.core.gpio.DigitalOutput;
-import io.silverspoon.bulldog.core.gpio.Pin;
-import io.silverspoon.bulldog.core.util.BulldogUtil;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The GPIO producer.
@@ -31,21 +34,23 @@ import io.silverspoon.bulldog.core.util.BulldogUtil;
  * @author Pavel Macík <pavel.macik@gmail.com>
  */
 public class GpioProducer extends DefaultProducer {
-   private static final transient Logger Log = LoggerFactory.getLogger(GpioProducer.class);
+
+   private static final transient Logger log = LoggerFactory.getLogger(GpioProducer.class);
+
    private GpioEndpoint endpoint;
-   private final Pin pin;
-   private DigitalOutput output;
+
+   private static Map<String, DigitalOutputPin> outputPins = Collections.synchronizedMap(new HashMap<String, DigitalOutputPin>());
+   private DigitalOutputPin outputPin = null;
 
    public GpioProducer(GpioEndpoint endpoint) {
       super(endpoint);
       this.endpoint = endpoint;
 
-      pin = endpoint.getBoard().getPin(endpoint.getPinName());
-      if (log.isInfoEnabled()) {
-         log.info("Pin attached: " + pin.getName());
-      }
+      outputPin = GpioProducer.getDigitalOutputPin(endpoint.getPinName());
 
-      output = pin.as(DigitalOutput.class);
+      if (log.isInfoEnabled() && outputPin != null) {
+         log.info("Pin attached: " + outputPin.getName());
+      }
    }
 
    public void process(Exchange exchange) throws Exception {
@@ -68,36 +73,57 @@ public class GpioProducer extends DefaultProducer {
             if (log.isDebugEnabled()) {
                log.debug("Setting pin " + endpoint.getPinName() + " to HIGH state.");
             }
-            output.high();
+            outputPin.high();
             if (pulseInMicroseconds > 0) {
                if (log.isDebugEnabled()) {
                   log.debug("Waiting for " + pulseInMicroseconds + " microseconds.");
                }
-               BulldogUtil.sleepNs(pulseInMicroseconds * 1000L);
+               this.sleepNs(pulseInMicroseconds * 1000L);
                if (log.isDebugEnabled()) {
                   log.debug("Setting pin " + endpoint.getPinName() + " to LOW state.");
                }
-               output.low();
+               outputPin.low();
             }
             break;
          case GpioComponent.LOW:
             if (log.isDebugEnabled()) {
                log.debug("Setting pin " + endpoint.getPinName() + " to LOW state.");
             }
-            output.low();
+            outputPin.low();
             if (pulseInMicroseconds > 0) {
                if (log.isDebugEnabled()) {
                   log.debug("Waiting for " + pulseInMicroseconds + " microseconds.");
                }
-               BulldogUtil.sleepNs(pulseInMicroseconds * 1000L);
+               this.sleepNs(pulseInMicroseconds * 1000L);
                if (log.isDebugEnabled()) {
                   log.debug("Setting pin " + endpoint.getPinName() + " to HIGH state.");
                }
-               output.high();
+               outputPin.high();
             }
             break;
          default:
             // not supposed to happen
       }
+   }
+
+   private void sleepNs(final long ns) {
+      final long start = System.nanoTime();
+      final long end = start + ns;
+      long now = 0;
+      do {
+         now = System.nanoTime();
+      } while (now < end);
+   }
+
+   private static DigitalOutputPin getDigitalOutputPin(String pinName) {
+      if (!outputPins.containsKey(pinName)) {
+         try {
+            outputPins.put(pinName, GpioEndpoint.getBoard().getDigitalOutputPin(pinName));
+         } catch (NoSupportedBoardFoundException e) {
+            log.error("Cannot create digital output PIN as there is no suitable board. ", e);
+         }
+      }
+
+      return outputPins.get(pinName);
    }
 }
