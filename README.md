@@ -5,4 +5,4 @@ Simplistic IoT Platform
 
 # Architecture
 
-![Silverspoon Architecture](https://rawgithub.com/px3/silverspoon/device-api/doc/img/arch.svg)
+![Silverspoon Architecture](https://cdn.rawgit.com/px3/silverspoon/devel/doc/img/arch.svg)
