@@ -26,6 +26,11 @@
       </dependency>
       <dependency>
         <groupId>org.apache.camel</groupId>
+        <artifactId>camel-test</artifactId>
+        <version>${version.camel}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.camel</groupId>
         <artifactId>camel-mqtt</artifactId>
         <version>${version.camel}</version>
       </dependency>
@@ -50,11 +55,11 @@
         <artifactId>pi4j-device-impl</artifactId>
         <version>${version.silverspoon}</version>
       </dependency>
-<!--       <dependency> -->
-<!--         <groupId>io.silverspoon</groupId> -->
-<!--         <artifactId>bulldog-device-impl</artifactId> -->
-<!--         <version>${version.silverspoon}</version> -->
-<!--       </dependency> -->
+      <!-- <dependency> -->
+      <!-- <groupId>io.silverspoon</groupId> -->
+      <!-- <artifactId>bulldog-device-impl</artifactId> -->
+      <!-- <version>${version.silverspoon}</version> -->
+      <!-- </dependency> -->
       <!-- Silverspoon.io Camel Components -->
       <dependency>
         <groupId>io.silverspoon</groupId>
