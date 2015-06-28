@@ -84,11 +84,7 @@
 
   <modules>
     <module>silverspoon-bom</module>
-    <module>silverspoon-device-api</module>
     <module>silverspoon-archetypes</module>
-    <module>camel-gpio</module>
-    <module>pi4j-device-impl</module>
-    <module>bulldog-device-impl</module>
     <module>camel-temperature</module>
     <module>camel-bulldog</module>
   </modules>

@@ -7,7 +7,7 @@
   <version>${version}</version>
   <packaging>jar</packaging>
 
-  <name>Silverspoon.io archetype: LED Controlled by REST API</name>
+  <name>Silverspoon.io archetype: Temperature sensor exposed via REST API</name>
 
   <properties>
     <version.silverspoon>0.2.0-SNAPSHOT</version.silverspoon>
@@ -31,7 +31,7 @@
   <dependencies>
     <dependency>
       <groupId>io.silverspoon</groupId>
-      <artifactId>camel-bulldog</artifactId>
+      <artifactId>camel-temperature</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>

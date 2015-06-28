@@ -15,5 +15,6 @@
   <modules>
   	<module>silverspoon-led</module>
   	<!-- More archetypes to come -->
+  	<module>silverspoon-temperature</module>
   </modules>
 </project>
