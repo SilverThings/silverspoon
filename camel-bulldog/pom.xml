@@ -42,9 +42,16 @@
 
     <!-- bulldog -->
     <dependency>
-      <!-- Having RPi until https://github.com/px3/bulldog/issues/23 is done -->
       <groupId>io.silverspoon</groupId>
       <artifactId>bulldog-board-raspberrypi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.silverspoon</groupId>
+      <artifactId>bulldog-board-cubieboard</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.silverspoon</groupId>
+      <artifactId>bulldog-board-beagleboneblack</artifactId>
     </dependency>
 
     <!-- logging -->
