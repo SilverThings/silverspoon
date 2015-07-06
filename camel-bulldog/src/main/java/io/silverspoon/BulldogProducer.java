@@ -28,7 +28,7 @@ public class BulldogProducer extends DefaultProducer {
    }
 
    public void process(Exchange exchange) throws Exception {
-      System.out.println(exchange.getIn().getBody());
+      // log.debug(exchange.getIn().getBody().toString());
       final String value = endpoint.getValue();
       // if specified in URL set accordingly, otherwise use exchange body
       if (value != null) {
