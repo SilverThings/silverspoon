@@ -63,7 +63,7 @@
       <!-- Silverspoon.io Camel Components -->
       <dependency>
         <groupId>io.silverspoon</groupId>
-        <artifactId>camel-gpio</artifactId>
+        <artifactId>camel-bulldog</artifactId>
         <version>${version.silverspoon}</version>
       </dependency>
       <!-- Bulldog Library -->
