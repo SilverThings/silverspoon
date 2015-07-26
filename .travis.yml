@@ -1,6 +1,12 @@
 language: java
 
-script: mvn clean install
+script: "
+if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
+then
+    mvn clean deploy --settings target/travis/settings.xml
+else
+    mvn clean verify --settings target/travis/settings.xml
+fi"
 
 jdk:
   - oraclejdk8
@@ -14,3 +20,8 @@ branches:
   only:
     - master
     - devel
+
+env:
+  global:
+    - secure: "FoX3CpBEZ7DWsuk0MJHwIgatYKtGcpUxpWmMol83Ybht0X8jaDlKmAw8mfjGE+40o81KVmOp5YqrE5SYILIW4Aj+UHc1TZWCs9RhSrsXOMFaHK8wVHguMKC5LVrUoCngxLxhYSpWcggeqAi219c83iuojrHLRXeE8i0uajzvdOE="
+    - secure: "OYBZ0OF4+UTgI1JLcKYlzq5TdDQIdmqtTO6m4fdm3eAcrxFpqWs3u028vHtNWuaK8iZVSuI8x8JkHvTr8SxbHcwTMbL0C/JwJxmipeFq7LG1PZG04sTBEMNSJ4XJ44ZSkdTnXLi1gfr1l0hRrmWDEjNHe6tYcN5isdhvSZv33NI="
