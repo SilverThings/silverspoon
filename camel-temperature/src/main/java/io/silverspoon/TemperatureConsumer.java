@@ -8,7 +8,7 @@ import org.apache.camel.impl.ScheduledPollConsumer;
  * The Temperature consumer.
  */
 public class TemperatureConsumer extends ScheduledPollConsumer {
-   // private static final Logger LOG = LoggerFactory.getLogger(TemperatureConsumer.class);
+
    private final TemperatureEndpoint endpoint;
 
    public TemperatureConsumer(TemperatureEndpoint endpoint, Processor processor) {

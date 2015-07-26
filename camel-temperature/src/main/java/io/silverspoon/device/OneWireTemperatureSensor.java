@@ -5,15 +5,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 /**
+ * Class to represent a OneWire Temperature sensor and read its values.
  * 
  * @author sbunciak
- *
+ * @see {@link TemperatureSensor}
  */
-public class OneWireTemperatureSensor {
+public class OneWireTemperatureSensor implements TemperatureSensor {
    private File deviceFile = null;
 
    /**
-    * 
+    * Constructor.
     * @param deviceFile
     */
    public OneWireTemperatureSensor(File deviceFile) {
@@ -21,9 +22,10 @@ public class OneWireTemperatureSensor {
    }
 
    /**
-    * 
-    * @return
+    * Read temperature from the sensors.
+    * @return temperature
     * @throws IOException
+    * @see {@link TemperatureSensor#readTemperature()}
     */
    public float readTemperature() throws IOException {
 

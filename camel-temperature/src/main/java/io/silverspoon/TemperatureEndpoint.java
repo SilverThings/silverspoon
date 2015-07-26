@@ -1,13 +1,13 @@
 package io.silverspoon;
 
 import io.silverspoon.device.OneWireTemperatureSensor;
-
-import com.sun.istack.logging.Logger;
+import io.silverspoon.device.TemperatureSensor;
 
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.impl.DefaultEndpoint;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,13 +18,17 @@ import java.util.List;
  * Represents a Temperature endpoint.
  */
 public class TemperatureEndpoint extends DefaultEndpoint {
+   
+   protected String type = "w1";
+   
+   private final String W1_DIR = System.getProperty("w1.devices", "/sys/bus/w1/devices/");
 
-   private final String W1_DIR = "/sys/bus/w1/devices/";
-   private List<OneWireTemperatureSensor> sensors = new ArrayList<OneWireTemperatureSensor>();
+   private List<TemperatureSensor> sensors = new ArrayList<TemperatureSensor>();
    private static final Logger LOG = Logger.getLogger(TemperatureEndpoint.class);
 
    public TemperatureEndpoint(String uri, TemperatureComponent component) {
       super(uri, component);
+      // init sensors
       loadSensors();
    }
 
@@ -40,25 +44,62 @@ public class TemperatureEndpoint extends DefaultEndpoint {
       return true;
    }
 
+   public String getType() {
+      return type;
+   }
+   
+   public void setType(String sensorType) {
+      this.type = sensorType;
+   }
+   
    private void loadSensors() {
-      // Load sensors
+      // Load sensors (currently only w1 is supported)
+      switch (type) {
+         case "w1":
+            loadW1Sensors();
+            break;
+         case "i2c":
+            loadI2cSensors();
+            break;
+         case "spi":
+            loadSPISensors();
+            break;
+         default:
+            break;
+      }
+   }
+
+   private void loadSPISensors() {
+      // TODO:
+      throw new UnsupportedOperationException("Not implemented, yet.");
+   }
+
+   private void loadI2cSensors() {
+      // TODO:
+      throw new UnsupportedOperationException("Not implemented, yet.");
+   }
+
+   private void loadW1Sensors() {
       File sensorDir = new File(W1_DIR);
       for (File sensorFile : sensorDir.listFiles()) {
-         if (!sensorFile.getName().startsWith("w1_bus_master")) {
+         if (sensorFile.getName().startsWith("28-00000")) {
             LOG.info("Adding sensor file: " + sensorFile);
             sensors.add(new OneWireTemperatureSensor(sensorFile));
          }
       }
    }
 
-   // TODO: support more sensors at a time
    public float getTemperature() {
       float res = 0.00f;
+      float tmpRes = 0.00f;
 
       try {
-         res = sensors.get(0).readTemperature();
+         for (TemperatureSensor sensor : sensors) {
+            tmpRes += sensor.readTemperature();
+         }
+         res = tmpRes / sensors.size();
       } catch (IOException e) {
-         e.printStackTrace();
+         LOG.error("Failed to count the temperature.", e);
       }
 
       return res;

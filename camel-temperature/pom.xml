@@ -42,17 +42,7 @@
     <!-- logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <!-- testing -->
@@ -79,7 +69,15 @@
           </instructions>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <w1.devices>${basedir}/src/test/resources</w1.devices>
+          </systemProperties>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
 </project>
