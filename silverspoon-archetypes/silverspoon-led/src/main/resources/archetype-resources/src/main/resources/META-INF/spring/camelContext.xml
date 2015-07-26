@@ -11,13 +11,8 @@
     <restConfiguration bindingMode="auto" component="jetty" port="8080" />
 
     <rest path="/rest/led">
-      <!-- Turn LED on -->
-      <get uri="/on">
-        <to uri="gpio://{{pin}}?value=HIGH" />
-      </get>
-      <!-- Turn LED off -->
-      <get uri="off">
-        <to uri="gpio://{{pin}}?value=LOW" />
+      <get uri="/toggle">
+        <to uri="pi4j-gpio://{{pin}}?mode=DIGITAL_OUTPUT&action=TOGGLE" />
       </get>
     </rest>
 

@@ -63,8 +63,9 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <version.bulldog>0.1.2</version.bulldog>
+    <version.bulldog>${project.version}</version.bulldog>
     <version.camel>2.14.1</version.camel>
+    <version.camel-labs>0.1.0</version.camel-labs>
     <version.amq>5.9.0</version.amq>
     <version.slf4j>1.7.5</version.slf4j>
     <version.log4j>1.2.17</version.log4j>
@@ -74,10 +75,10 @@
     <version.jar.plugin>2.5</version.jar.plugin>
     <version.source.plugin>2.4</version.source.plugin>
     <version.javadoc.plugin>2.10.1</version.javadoc.plugin>
+    <version.surefire.plugin>2.18.1</version.surefire.plugin>
     <version.junit>4.11</version.junit>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
-    <version.pi4j>1.1-SNAPSHOT</version.pi4j>
   </properties>
 
   <repositories/>
@@ -169,6 +170,11 @@
             <releaseProfiles>release</releaseProfiles>
             <goals>deploy</goals>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${version.surefire.plugin}</version>
         </plugin>
       </plugins>
     </pluginManagement>

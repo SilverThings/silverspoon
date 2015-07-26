@@ -30,8 +30,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>io.silverspoon</groupId>
-      <artifactId>camel-bulldog</artifactId>
+      <groupId>com.github.camel-labs</groupId>
+      <artifactId>camel-pi4j</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>
@@ -43,19 +43,11 @@
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
     </dependency>
   </dependencies>
 
@@ -69,6 +61,4 @@
       </plugin>
     </plugins>
   </build>
-
-  
 </project>
