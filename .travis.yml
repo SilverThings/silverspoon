@@ -5,9 +5,9 @@ before_install: "git clone -b travis `git config --get remote.origin.url` target
 script: "
 if [ ${TRAVIS_PULL_REQUEST} = 'false' ];
 then
-    mvn clean deploy --settings target/travis/settings.xml
+    mvn clean deploy --settings target/travis/settings.xml;
 else
-    mvn clean verify --settings target/travis/settings.xml
+    mvn clean verify --settings target/travis/settings.xml;
 fi"
 
 jdk:
