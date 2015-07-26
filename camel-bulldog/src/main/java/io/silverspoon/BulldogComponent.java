@@ -1,18 +1,49 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.silverspoon;
 
-import java.util.Map;
+import io.silverspoon.bulldog.core.Signal;
 
+import org.apache.camel.CamelException;
 import org.apache.camel.Endpoint;
 import org.apache.camel.impl.DefaultComponent;
 
+import java.util.Map;
+
 /**
  * Represents the component that manages {@link BulldogEndpoint}.
+ * @author Pavel Macík <pavel.macik@gmail.com>
+ * @author sbunciak
  */
 public class BulldogComponent extends DefaultComponent {
 
     protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-        Endpoint endpoint = new BulldogEndpoint(uri, this);
+        final BulldogEndpoint endpoint = new BulldogEndpoint(uri, this);
         setProperties(endpoint, parameters);
-        return endpoint;
+
+        // if value is not null try to construct a valid Signal
+        if (endpoint.getValue() != null) {
+           Signal.fromString(endpoint.getValue());
+        }
+
+        if (endpoint.getPin() != null) {
+           return endpoint;
+        } else {
+           throw new CamelException("The value of the 'pin' must not be null.");
+        }
     }
 }

@@ -17,14 +17,17 @@ import java.util.regex.Pattern;
  * Represents a Bulldog endpoint.
  */
 public class BulldogEndpoint extends DefaultEndpoint {
-   public static final String URI_PATTERN_STRING = "bulldog://([a-zA-Z0-9_%]+)(\\?[\\w=&%]+)?";
+   // PATTERN to match : bulldog://<bus>?pin=<pin_name>&value=<pin_value>
+   // public static final String URI_PATTERN_STRING = "bulldog://(gpio|spi|i2c|pwm)(\\?[\\w=&%_]+)";
+   // TODO: currently only gpio supported
+   public static final String URI_PATTERN_STRING = "bulldog://gpio(\\?[\\w=&%_]+)";
    public static final Pattern URI_PATTERN = Pattern.compile(URI_PATTERN_STRING);
-   
+
    private static final Logger LOG = LoggerFactory.getLogger(BulldogEndpoint.class);
-   
-   private final String pinName;
 
    private final Board board;
+
+   private String pin = null;
 
    private String value = null;
 
@@ -34,12 +37,10 @@ public class BulldogEndpoint extends DefaultEndpoint {
       super(uri, component);
 
       final Matcher m = URI_PATTERN.matcher(uri);
-      if (m.matches()) {
-         pinName = m.group(1).toUpperCase();
-      } else {
+      if (!m.matches()) {
          throw new RuntimeException("Specified URI (" + uri + ") does not match the requested pattern (" + URI_PATTERN_STRING + ")");
       }
-      
+
       board = Platform.createBoard();
       LOG.info("Board found: " + board.getName());
    }
@@ -49,16 +50,22 @@ public class BulldogEndpoint extends DefaultEndpoint {
    }
 
    public Consumer createConsumer(Processor processor) throws Exception {
-      // return new BulldogConsumer(this, processor);
-      throw new UnsupportedOperationException("Not implemented, yet.");
+      if (value != null) {
+         LOG.warn("Found value for pin. Omitting as creating consumer component.");
+      }
+      return new BulldogConsumer(this, processor);
    }
 
    public boolean isSingleton() {
       return true;
    }
 
-   protected String getPinName() {
-      return this.pinName;
+   protected String getPin() {
+      return this.pin;
+   }
+
+   public void setPin(String pin) {
+      this.pin = pin;
    }
 
    protected Board getBoard() {

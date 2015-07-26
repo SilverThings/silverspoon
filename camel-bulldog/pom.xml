@@ -20,6 +20,7 @@
   <properties>
     <!--Version of camel-temperature is aligned with Silverspoon -->
     <version.silverspoon>${project.version}</version.silverspoon>
+    <maven.test.skip>true</maven.test.skip>
   </properties>
 
   <dependencyManagement>
@@ -62,9 +63,8 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
-      <scope>test</scope>
     </dependency>
-    
+
     <!-- testing -->
     <dependency>
       <groupId>org.apache.camel</groupId>
@@ -91,4 +91,17 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- Profile to explicitly enable tests (designed for ARM boards only) -->
+  <profiles>
+    <profile>
+      <id>test</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <maven.test.skip>false</maven.test.skip>
+      </properties>
+    </profile>
+  </profiles>
 </project>

@@ -22,7 +22,7 @@ public class BulldogProducer extends DefaultProducer {
       super(endpoint);
       this.endpoint = endpoint;
 
-      pin = endpoint.getBoard().getPin(endpoint.getPinName());
+      pin = endpoint.getBoard().getPin(endpoint.getPin());
       log.info("Pin attached: " + pin.getName());
       output = pin.as(DigitalOutput.class);
    }
@@ -40,28 +40,28 @@ public class BulldogProducer extends DefaultProducer {
 
    private void setPinValue(final Signal value) {
       final long pulseInMicroseconds = this.endpoint.getPulseInMicroseconds();
-      
+
       switch (value) {
          case High:
-            log.debug("Setting pin " + endpoint.getPinName() + " to HIGH state.");
+            log.debug("Setting pin " + endpoint.getPin() + " to HIGH state.");
             output.high();
 
             if (pulseInMicroseconds > 0) {
                log.debug("Waiting for " + pulseInMicroseconds + " microseconds.");
                BulldogUtil.sleepNs(pulseInMicroseconds * 1000L);
-               log.debug("Setting pin " + endpoint.getPinName() + " to LOW state.");
+               log.debug("Setting pin " + endpoint.getPin() + " to LOW state.");
                output.low();
             }
 
             break;
          case Low:
-            log.debug("Setting pin " + endpoint.getPinName() + " to LOW state.");
+            log.debug("Setting pin " + endpoint.getPin() + " to LOW state.");
             output.low();
 
             if (pulseInMicroseconds > 0) {
                log.debug("Waiting for " + pulseInMicroseconds + " microseconds.");
                BulldogUtil.sleepNs(pulseInMicroseconds * 1000L);
-               log.debug("Setting pin " + endpoint.getPinName() + " to HIGH state.");
+               log.debug("Setting pin " + endpoint.getPin() + " to HIGH state.");
                output.high();
             }
 

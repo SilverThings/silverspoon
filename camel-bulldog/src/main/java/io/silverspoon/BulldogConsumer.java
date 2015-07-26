@@ -1,3 +1,19 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.silverspoon;
 
 import io.silverspoon.bulldog.core.Signal;
@@ -15,6 +31,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The Bulldog consumer.
+ * @author Pavel Macík <pavel.macik@gmail.com>
+ * @author sbunciak
  */
 public class BulldogConsumer extends ScheduledPollConsumer {
     private final BulldogEndpoint endpoint;
@@ -24,15 +42,15 @@ public class BulldogConsumer extends ScheduledPollConsumer {
     private Button button;
     private final GpioButtonListener cbListener;
     private Queue<String> eventQueue = new LinkedBlockingQueue<>();
-    
+
     public BulldogConsumer(BulldogEndpoint endpoint, Processor processor) {
         super(endpoint, processor);
         this.endpoint = endpoint;
-        
-        pin = endpoint.getBoard().getPin(endpoint.getPinName());
+
+        pin = endpoint.getBoard().getPin(endpoint.getPin());
         log.info("Pin attached: " + pin.getName());
         input = pin.as(DigitalInput.class);
-        
+
         button = new Button(input, Signal.Low);
         cbListener = new GpioButtonListener();
     }
@@ -81,12 +99,12 @@ public class BulldogConsumer extends ScheduledPollConsumer {
     private class GpioButtonListener implements ButtonListener {
        public void buttonPressed() {
           if (log.isInfoEnabled()) {
-             log.info("Button at " + endpoint.getPinName() + " pressed!");
+             log.info("Button at " + endpoint.getPin() + " pressed!");
           }
           final String value = endpoint.getValue();
           // if value parameter is not set or is set to HIGH
           if (value == null || Signal.fromString(value).equals(Signal.High)) {
-             final String msg = endpoint.getPinName() + ":1";
+             final String msg = endpoint.getPin() + ":1";
              if (log.isInfoEnabled()) {
                 log.info("Adding a message to event queue: [" + msg + "]");
              }
@@ -96,12 +114,12 @@ public class BulldogConsumer extends ScheduledPollConsumer {
 
        public void buttonReleased() {
           if (log.isInfoEnabled()) {
-             log.info("Button at " + endpoint.getPinName() + " released!");
+             log.info("Button at " + endpoint.getPin() + " released!");
           }
           final String value = endpoint.getValue();
           // if value parameter is not set or is set to LOW
           if (value == null || Signal.fromString(value).equals(Signal.Low)) {
-             final String msg = endpoint.getPinName() + ":0";
+             final String msg = endpoint.getPin() + ":0";
              if (log.isInfoEnabled()) {
                 log.info("Adding a message to event queue: [" + msg + "]");
              }
