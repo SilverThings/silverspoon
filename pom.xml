@@ -64,7 +64,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <version.bulldog>${project.version}</version.bulldog>
-    <version.camel>2.14.1</version.camel>
+    <version.camel>2.15.1</version.camel>
     <version.camel-labs>0.1.0</version.camel-labs>
     <version.amq>5.9.0</version.amq>
     <version.slf4j>1.7.5</version.slf4j>
