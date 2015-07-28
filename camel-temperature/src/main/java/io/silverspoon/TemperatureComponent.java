@@ -15,8 +15,8 @@ public class TemperatureComponent extends UriEndpointComponent {
    }
 
    protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-        Endpoint endpoint = new TemperatureEndpoint(uri, this);
-        setProperties(endpoint, parameters);
-        return endpoint;
-    }
+      TemperatureEndpoint endpoint = new TemperatureEndpoint(uri, remaining, this);
+      setProperties(endpoint, parameters);
+      return endpoint;
+   }
 }

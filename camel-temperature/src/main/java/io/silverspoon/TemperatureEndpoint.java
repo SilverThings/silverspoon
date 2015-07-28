@@ -8,7 +8,6 @@ import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.impl.DefaultEndpoint;
 import org.apache.camel.spi.UriEndpoint;
-import org.apache.camel.spi.UriParam;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -19,19 +18,20 @@ import java.util.List;
 /**
  * Represents a Temperature endpoint.
  */
-@UriEndpoint(scheme = "temperature", title = "Temperature Component", syntax = "temperature://sensor?type=w1")
+@UriEndpoint(scheme = "temperature", title = "Temperature Component", syntax = "temperature:type")
 public class TemperatureEndpoint extends DefaultEndpoint {
-   
-   @UriParam
-   private String type = "w1";
-   
+
+   private String type = null;
+
    private final String W1_DIR = System.getProperty("w1.devices", "/sys/bus/w1/devices/");
 
    private List<TemperatureSensor> sensors = new ArrayList<TemperatureSensor>();
    private static final Logger LOG = Logger.getLogger(TemperatureEndpoint.class);
 
-   public TemperatureEndpoint(String uri, TemperatureComponent component) {
+   public TemperatureEndpoint(String uri, String type, TemperatureComponent component) {
       super(uri, component);
+
+      this.type = type;
       // init sensors
       loadSensors();
    }
@@ -51,11 +51,11 @@ public class TemperatureEndpoint extends DefaultEndpoint {
    public String getType() {
       return type;
    }
-   
-   public void setType(String sensorType) {
-      this.type = sensorType;
+
+   public void setType(String type) {
+      this.type = type;
    }
-   
+
    private void loadSensors() {
       // Load sensors (currently only w1 is supported)
       switch (type) {
