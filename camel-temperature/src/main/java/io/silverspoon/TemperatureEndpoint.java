@@ -7,6 +7,8 @@ import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.impl.DefaultEndpoint;
+import org.apache.camel.spi.UriEndpoint;
+import org.apache.camel.spi.UriParam;
 import org.apache.log4j.Logger;
 
 import java.io.File;
@@ -17,9 +19,11 @@ import java.util.List;
 /**
  * Represents a Temperature endpoint.
  */
+@UriEndpoint(scheme = "temperature", title = "Temperature Component", syntax = "temperature://sensor?type=w1")
 public class TemperatureEndpoint extends DefaultEndpoint {
    
-   protected String type = "w1";
+   @UriParam
+   private String type = "w1";
    
    private final String W1_DIR = System.getProperty("w1.devices", "/sys/bus/w1/devices/");
 
