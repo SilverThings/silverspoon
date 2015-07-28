@@ -4,11 +4,13 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
-    <restConfiguration bindingMode="auto" component="jetty" port="8080" />
+    <restConfiguration component="servlet" bindingMode="json" port="8080">
+      <dataFormatProperty key="prettyPrint" value="true"/>
+    </restConfiguration>
 
-    <rest path="/rest/">
-      <get uri="/temperature">
-        <to uri="temperature://" />
+    <rest path="/temperature">
+      <get uri="/">
+        <to uri="temperature://w1" />
       </get>
     </rest>
 

@@ -44,6 +44,26 @@
         <artifactId>camel-jetty</artifactId>
         <version>${version.camel}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-swagger</artifactId>
+        <version>${version.camel}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-servlet</artifactId>
+        <version>${version.camel}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-jackson</artifactId>
+        <version>${version.camel}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-web</artifactId>
+        <version>4.1.6.RELEASE</version>
+      </dependency>
       <!-- Camel Labs components -->
       <dependency>
         <groupId>com.github.camel-labs</groupId>
@@ -54,6 +74,11 @@
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>camel-bulldog</artifactId>
+        <version>${version.silverspoon}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.silverspoon</groupId>
+        <artifactId>camel-temperature</artifactId>
         <version>${version.silverspoon}</version>
       </dependency>
       <!-- Bulldog Library -->
@@ -106,16 +131,6 @@
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux-native-raspberrypi</artifactId>
         <version>${version.bulldog}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.pi4j</groupId>
-        <artifactId>pi4j-core</artifactId>
-        <version>${version.pi4j}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.pi4j</groupId>
-        <artifactId>pi4j-device</artifactId>
-        <version>${version.pi4j}</version>
       </dependency>
       <!-- Logging -->
       <dependency>

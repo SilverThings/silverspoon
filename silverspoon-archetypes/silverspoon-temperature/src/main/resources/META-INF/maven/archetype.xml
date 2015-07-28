@@ -2,7 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype/1.0.0 http://maven.apache.org/xsd/archetype-1.0.0.xsd">
   <id>silverspoon-archetype-temperature</id>
   <resources>
-    <resource>src/main/resources/META-INF/spring/camelContext.xml</resource>
+    <resource>src/main/resources/camelContext.xml</resource>
     <resource>src/main/resources/log4j.properties</resource>
+    <resource>src/main/webapp/home.html</resource>
+    <resource>src/main/webapp/WEB-INF/web.xml</resource>
+    <resource>README.md</resource>
   </resources>
 </archetype>
