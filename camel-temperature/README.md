@@ -20,5 +20,8 @@ Since the Raspbian operating system was updated back at the end of January 2015 
 
 Now you need to open the /boot/config.txt file for editing. Then scroll down to the bottom of the file, and add the line:
 `dtoverlay=w1-gpio`
+`dtoverlay=w1-therm`
+
+If you don't specify w1 pin it expects the sensor to be connected to the default GPIO_04 pin (physically, it's the pin #7 on raspberry pi 2)
 
 Finally reboot the Raspberry Pi so that the changes take effect.
