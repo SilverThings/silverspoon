@@ -18,9 +18,10 @@ package io.silverspoon;
 
 import io.silverspoon.bulldog.core.Signal;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.CamelException;
 import org.apache.camel.Endpoint;
-import org.apache.camel.impl.DefaultComponent;
+import org.apache.camel.impl.UriEndpointComponent;
 
 import java.util.Map;
 
@@ -29,12 +30,28 @@ import java.util.Map;
  * @author Pavel Macík <pavel.macik@gmail.com>
  * @author sbunciak
  */
-public class BulldogComponent extends DefaultComponent {
+public class BulldogComponent extends UriEndpointComponent {
 
-    protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
+   public BulldogComponent() {
+      super(BulldogEndpoint.class);
+   }
+   
+    public BulldogComponent(CamelContext context) {
+      super(context, BulldogEndpoint.class);
+   }
+
+   protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
         final BulldogEndpoint endpoint = new BulldogEndpoint(uri, this);
         setProperties(endpoint, parameters);
 
+        // don't allow overriding of bus 
+        endpoint.setBus(remaining);
+        
+        // TODO: currently only gpio supported. Will be fixed with issues #35, #36 and #38
+        if (!remaining.equalsIgnoreCase("gpio")) {
+           throw new CamelException("Other bus than gpio is not supported at the moment.");
+        }
+        
         // if value is not null try to construct a valid Signal
         if (endpoint.getValue() != null) {
            Signal.fromString(endpoint.getValue());
