@@ -8,6 +8,6 @@ Before using this archetype be sure to have w1 kernel modules loaded. Consult [c
 ##Running
 You can try the example from Maven using
 
-   mvn jetty:run
+    mvn jetty:run
 
-Once jetty is running you can reach the main page at http://localhost:8080/${artifactId}
+Once jetty is running you can reach the main page at `http://localhost:8080/${artifactId}`
