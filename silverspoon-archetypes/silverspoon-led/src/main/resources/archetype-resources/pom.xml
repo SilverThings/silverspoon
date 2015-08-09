@@ -31,15 +31,7 @@
   <dependencies>
     <dependency>
       <groupId>io.silverspoon</groupId>
-      <artifactId>bulldog-board-raspberrypi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.silverspoon</groupId>
-      <artifactId>bulldog-board-cubieboard</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.silverspoon</groupId>
-      <artifactId>bulldog-board-raspberrypi</artifactId>
+      <artifactId>camel-bulldog</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel</groupId>

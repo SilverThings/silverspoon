@@ -34,7 +34,7 @@ public class BulldogProducer extends DefaultProducer {
       if (value != null) {
          setPinValue(Signal.fromString(value));
       } else {
-         setPinValue(Signal.fromString(exchange.getIn().getBody().toString()));
+         setPinValue(Signal.fromString(exchange.getIn().getBody(String.class)));
       }
    }
 

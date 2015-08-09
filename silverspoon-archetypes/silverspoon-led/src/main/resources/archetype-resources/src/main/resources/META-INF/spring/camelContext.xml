@@ -10,10 +10,10 @@
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
     <restConfiguration bindingMode="auto" component="jetty" port="8080" />
 
-    <rest path="/rest/led">
-      <get uri="/toggle">
-        <to uri="pi4j-gpio://{{pin}}?mode=DIGITAL_OUTPUT&action=TOGGLE" />
-      </get>
+    <rest path="/rest">
+      <post uri="/led">
+        <to uri="bulldog://gpio?pin={{pin}}" />
+      </post>
     </rest>
 
   </camelContext>
