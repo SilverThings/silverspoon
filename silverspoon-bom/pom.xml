@@ -64,12 +64,6 @@
         <artifactId>spring-web</artifactId>
         <version>4.1.6.RELEASE</version>
       </dependency>
-      <!-- Camel Labs components -->
-      <dependency>
-        <groupId>com.github.camel-labs</groupId>
-        <artifactId>camel-pi4j</artifactId>
-        <version>${version.camel-labs}</version>
-      </dependency>
       <!-- Silverspoon.io Camel Components -->
       <dependency>
         <groupId>io.silverspoon</groupId>
