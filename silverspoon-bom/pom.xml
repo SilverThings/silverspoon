@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.silverspoon</groupId>
     <artifactId>silverspoon-parent</artifactId>
-    <version>0.2.0-SNAPSHOT</version>
+    <version>0.2.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>silverspoon-bom</artifactId>
@@ -109,21 +109,6 @@
       <dependency>
         <groupId>io.silverspoon</groupId>
         <artifactId>bulldog-linux-native</artifactId>
-        <version>${version.bulldog}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.silverspoon</groupId>
-        <artifactId>bulldog-linux-native-beagleboneblack</artifactId>
-        <version>${version.bulldog}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.silverspoon</groupId>
-        <artifactId>bulldog-linux-native-cubieboard</artifactId>
-        <version>${version.bulldog}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.silverspoon</groupId>
-        <artifactId>bulldog-linux-native-raspberrypi</artifactId>
         <version>${version.bulldog}</version>
       </dependency>
       <!-- Logging -->
