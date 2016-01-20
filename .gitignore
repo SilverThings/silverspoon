@@ -8,6 +8,9 @@ target/
 !/.gitignore
 !/.travis.yml
 
+# IntelliJ IDEA
+*.iml
+
 # Java Classes
 *.class
 
