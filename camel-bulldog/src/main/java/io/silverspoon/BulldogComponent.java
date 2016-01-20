@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,14 +16,14 @@
  */
 package io.silverspoon;
 
-import io.silverspoon.bulldog.core.Signal;
-
 import org.apache.camel.CamelContext;
 import org.apache.camel.CamelException;
 import org.apache.camel.Endpoint;
 import org.apache.camel.impl.UriEndpointComponent;
 
 import java.util.Map;
+
+import io.silverspoon.bulldog.core.Signal;
 
 /**
  * Represents the component that manages {@link BulldogEndpoint}.
@@ -35,32 +35,32 @@ public class BulldogComponent extends UriEndpointComponent {
    public BulldogComponent() {
       super(BulldogEndpoint.class);
    }
-   
-    public BulldogComponent(CamelContext context) {
+
+   public BulldogComponent(CamelContext context) {
       super(context, BulldogEndpoint.class);
    }
 
    protected Endpoint createEndpoint(String uri, String remaining, Map<String, Object> parameters) throws Exception {
-        final BulldogEndpoint endpoint = new BulldogEndpoint(uri, this);
-        setProperties(endpoint, parameters);
+      final BulldogEndpoint endpoint = new BulldogEndpoint(uri, this);
+      setProperties(endpoint, parameters);
 
-        // don't allow overriding of bus 
-        endpoint.setBus(remaining);
-        
-        // TODO: currently only gpio supported. Will be fixed with issues #35, #36 and #38
-        if (!remaining.equalsIgnoreCase("gpio")) {
-           throw new CamelException("Other bus than gpio is not supported at the moment.");
-        }
-        
-        // if value is not null try to construct a valid Signal
-        if (endpoint.getValue() != null) {
-           Signal.fromString(endpoint.getValue());
-        }
+      // don't allow overriding of bus
+      endpoint.setBus(remaining);
 
-        if (endpoint.getPin() != null) {
-           return endpoint;
-        } else {
-           throw new CamelException("The value of the 'pin' must not be null.");
-        }
-    }
+      // TODO: currently only gpio supported. Will be fixed with issues #35, #36 and #38
+      if (!remaining.equalsIgnoreCase("gpio") && !remaining.equalsIgnoreCase("i2c")) {
+         throw new CamelException("Other bus than gpio or i2c is not supported at the moment.");
+      }
+
+      // if value is not null try to construct a valid Signal
+      if (endpoint.getValue() != null) {
+         Signal.fromString(endpoint.getValue());
+      }
+
+      if (endpoint.getPin() != null) {
+         return endpoint;
+      } else {
+         throw new CamelException("The value of the 'pin' must not be null.");
+      }
+   }
 }

@@ -1,13 +1,9 @@
 package io.silverspoon;
 
-import io.silverspoon.bulldog.core.platform.Board;
-import io.silverspoon.bulldog.core.platform.Platform;
-
 import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.impl.DefaultEndpoint;
-import org.apache.camel.spi.Metadata;
 import org.apache.camel.spi.UriEndpoint;
 import org.apache.camel.spi.UriPath;
 import org.slf4j.Logger;
@@ -16,12 +12,15 @@ import org.slf4j.LoggerFactory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.silverspoon.bulldog.core.platform.Board;
+import io.silverspoon.bulldog.core.platform.Platform;
+
 /**
  * Represents a Bulldog endpoint.
  */
 @UriEndpoint(scheme = "bulldog", title = "Bulldog", syntax = "bulldog://(gpio|spi|i2c|pwm)(\\?[\\w=&%_]+)", consumerClass = BulldogConsumer.class)
 public class BulldogEndpoint extends DefaultEndpoint {
-   
+
    public static final String URI_PATTERN_STRING = "bulldog://(gpio|spi|i2c|pwm)(\\?[\\w=&%_]+)";
    public static final Pattern URI_PATTERN = Pattern.compile(URI_PATTERN_STRING);
 
@@ -29,15 +28,26 @@ public class BulldogEndpoint extends DefaultEndpoint {
 
    private final Board board;
 
-   @UriPath @Metadata(required = "true")
-   private String pin = null;
+   @UriPath
+   private String pin = null;// valid for gpio and pwm
 
    @UriPath
-   private String value = null;
+   private String value = null; // valid for gpio and pwm
+
+   @UriPath
+   private long pulseInMicroseconds = 0L; // valid for gpio
+
+   @UriPath
+   private String address = null; // valid for i2c
 
    private String bus = null;
-   
-   private long pulseInMicroseconds = 0L;
+
+   public static final String FEATURE_GPIO = "gpio";
+   public static final String FEATURE_SPI = "spi";
+   public static final String FEATURE_I2C = "i2c";
+   public static final String FEATURE_PWM = "pwm";
+
+   private String feature = null;
 
    public BulldogEndpoint(String uri, BulldogComponent component) {
       super(uri, component);
@@ -47,12 +57,23 @@ public class BulldogEndpoint extends DefaultEndpoint {
          throw new RuntimeException("Specified URI (" + uri + ") does not match the requested pattern (" + URI_PATTERN_STRING + ")");
       }
 
+      feature = m.group(1);
+
       board = Platform.createBoard();
       LOG.info("Board found: " + board.getName());
    }
 
    public Producer createProducer() throws Exception {
-      return new BulldogProducer(this);
+      switch (feature) {
+         case FEATURE_GPIO:
+            return new GpioProducer(this);
+         case FEATURE_I2C:
+            return new I2cProducer(this);
+         case FEATURE_SPI:
+         case FEATURE_PWM:
+         default:
+            throw new RuntimeException("Unsupported feature (" + feature + ")");
+      }
    }
 
    public Consumer createConsumer(Processor processor) throws Exception {
@@ -84,6 +105,14 @@ public class BulldogEndpoint extends DefaultEndpoint {
 
    public void setValue(String value) {
       this.value = value;
+   }
+
+   public String getAddress() {
+      return this.address;
+   }
+
+   public void setAddress(String address) {
+      this.address = address;
    }
 
    public long getPulseInMicroseconds() {
