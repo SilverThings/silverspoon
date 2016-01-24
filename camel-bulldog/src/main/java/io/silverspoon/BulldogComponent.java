@@ -47,20 +47,20 @@ public class BulldogComponent extends UriEndpointComponent {
       // don't allow overriding of bus
       endpoint.setBus(remaining);
 
-      // TODO: currently only gpio supported. Will be fixed with issues #35, #36 and #38
+      // TODO: currently only gpio and i2c supported. Will be fixed with issues #35, and #38
       if (!remaining.equalsIgnoreCase("gpio") && !remaining.equalsIgnoreCase("i2c")) {
          throw new CamelException("Other bus than gpio or i2c is not supported at the moment.");
       }
 
       // if value is not null try to construct a valid Signal
-      if (endpoint.getValue() != null) {
-         Signal.fromString(endpoint.getValue());
-      }
+      //if (endpoint.getValue() != null) {
+      //   Signal.fromString(endpoint.getValue());
+      //}
 
-      if (endpoint.getPin() != null) {
+      //if (endpoint.getPin() != null) {
          return endpoint;
-      } else {
-         throw new CamelException("The value of the 'pin' must not be null.");
-      }
+      //} else {
+      //   throw new CamelException("The value of the 'pin' must not be null.");
+      //}
    }
 }

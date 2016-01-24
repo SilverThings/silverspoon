@@ -4,6 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cConnection;
@@ -27,12 +28,12 @@ public class I2cProducer extends BulldogProducer {
       final byte[] buffer = new byte[READ_BUFFER_SIZE];
       boolean invalidData = false;
       synchronized (lock) {
-         final I2cConnection connection = i2c.createI2cConnection(Integer.valueOf(getEndpoint().getAddress()));
+         final I2cConnection connection = i2c.createI2cConnection(Byte.decode(getEndpoint().getAddress()));
          try {
-            connection.writeBytes((byte[]) exchange.getIn().getBody());
+            connection.writeBytes(exchange.getIn().getBody().toString().getBytes());
             if (exchange.getPattern().equals(ExchangePattern.InOut)) {
-               connection.readBytes(buffer);
-               exchange.getIn().setBody(buffer);
+               int count = connection.readBytes(buffer);
+               exchange.getIn().setBody(Arrays.copyOf(buffer, count));
             }
          } catch (IOException ioe) {
             ioe.printStackTrace();
