@@ -45,7 +45,7 @@ public class I2cProducer extends BulldogProducer {
                   log.debug("Preparing I2C message");
                }
                for (int i = 0; i < requestBuffer.length; i++) {
-                  final String value = "0x" + body.substring(2 * i, 2 * (i + 1))
+                  final String value = "0x" + body.substring(2 * i, 2 * (i + 1));
                   requestBuffer[i] = Integer.decode(value).byteValue();
                   if(log.isDebugEnabled()){
                      log.debug("Appending byte: " + value);
