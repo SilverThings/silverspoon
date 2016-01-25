@@ -17,6 +17,9 @@ import io.silverspoon.bulldog.core.platform.Platform;
 
 /**
  * Represents a Bulldog endpoint.
+ *
+ * @author <a href="mailto:pavel.macik@gmail.com">Pavel Macík</a>
+ * @author <a href="mailto:pipistik.bunciak@gmail.com">Štefan Bunčiak</a>
  */
 @UriEndpoint(scheme = "bulldog", title = "Bulldog", syntax = "bulldog://(gpio|spi|i2c|pwm)(\\?[\\w=&%_]+)", consumerClass = BulldogConsumer.class)
 public class BulldogEndpoint extends DefaultEndpoint {

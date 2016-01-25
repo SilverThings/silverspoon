@@ -27,8 +27,9 @@ import io.silverspoon.bulldog.core.Signal;
 
 /**
  * Represents the component that manages {@link BulldogEndpoint}.
- * @author Pavel Macík <pavel.macik@gmail.com>
- * @author sbunciak
+ *
+ * @author <a href="mailto:pavel.macik@gmail.com">Pavel Macík</a>
+ * @author <a href="mailto:pipistik.bunciak@gmail.com">Štefan Bunčiak</a>
  */
 public class BulldogComponent extends UriEndpointComponent {
 

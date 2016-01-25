@@ -8,7 +8,9 @@ import io.silverspoon.bulldog.core.pin.Pin;
 import io.silverspoon.bulldog.core.util.BulldogUtil;
 
 /**
- * The Bulldog producer.
+ * The GPIO producer.
+ *
+ * @author <a href="mailto:pavel.macik@gmail.com">Pavel Macík</a>
  */
 public class GpioProducer extends BulldogProducer {
 
@@ -24,7 +26,6 @@ public class GpioProducer extends BulldogProducer {
    }
 
    public void process(Exchange exchange) throws Exception {
-      // log.debug(exchange.getIn().getBody().toString());
       final String value = getEndpoint().getValue();
       // if specified in URL set accordingly, otherwise use exchange body
       if (value != null) {

@@ -29,9 +29,9 @@ import io.silverspoon.bulldog.devices.switches.Button;
 import io.silverspoon.bulldog.devices.switches.ButtonListener;
 
 /**
- * The Bulldog consumer.
- * @author Pavel Macík <pavel.macik@gmail.com>
- * @author sbunciak
+ * The GPIO consumer.
+ *
+ * @author <a href="mailto:pavel.macik@gmail.com">Pavel Macík</a>
  */
 public class GpioConsumer extends BulldogConsumer {
    private final Pin pin;

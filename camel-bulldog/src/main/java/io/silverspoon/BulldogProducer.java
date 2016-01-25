@@ -10,6 +10,8 @@ import org.apache.camel.impl.DefaultProducer;
 
 /**
  * The Bulldog producer.
+ * @author <a href="mailto:pavel.macik@gmail.com">Pavel Macík</a>
+ * @author <a href="mailto:pipistik.bunciak@gmail.com">Štefan Bunčiak</a>
  */
 public abstract class BulldogProducer extends DefaultProducer {
 
