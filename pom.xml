@@ -65,7 +65,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <!--version.bulldog>${project.version}</version.bulldog-->
     <version.bulldog>0.2.1</version.bulldog>
-    <version.camel>2.15.1</version.camel>
+    <version.camel>2.16.1</version.camel>
     <version.amq>5.9.0</version.amq>
     <version.slf4j>1.7.5</version.slf4j>
     <version.log4j>1.2.17</version.log4j>

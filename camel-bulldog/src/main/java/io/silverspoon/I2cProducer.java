@@ -17,7 +17,6 @@ public class I2cProducer extends BulldogProducer {
    private static final Object lock = new Object();
    private final I2cBus i2c;
    private I2cConnection connection;
-   private static final int READ_BUFFER_SIZE = 256;
 
    public I2cProducer(BulldogEndpoint endpoint) {
       super(endpoint);
@@ -25,15 +24,20 @@ public class I2cProducer extends BulldogProducer {
    }
 
    public void process(Exchange exchange) throws Exception {
-      final byte[] buffer = new byte[READ_BUFFER_SIZE];
+      final int length = getEndpoint().getReadLength();
+      final byte[] buffer = new byte[length];
       boolean invalidData = false;
       synchronized (lock) {
          final I2cConnection connection = i2c.createI2cConnection(Byte.decode(getEndpoint().getAddress()));
          try {
             connection.writeBytes(exchange.getIn().getBody().toString().getBytes());
-            if (exchange.getPattern().equals(ExchangePattern.InOut)) {
-               int count = connection.readBytes(buffer);
-               exchange.getIn().setBody(Arrays.copyOf(buffer, count));
+            if (length > 0) {
+               connection.readBytes(buffer);
+               StringBuffer out = new StringBuffer();
+               for(int i = 0; i < length; i++){
+                  out.append(Integer.toHexString(buffer[i]));
+               }
+               exchange.getIn().setBody(out.toString());
             }
          } catch (IOException ioe) {
             ioe.printStackTrace();

@@ -40,6 +40,9 @@ public class BulldogEndpoint extends DefaultEndpoint {
    @UriPath
    private String address = null; // valid for i2c
 
+   @UriPath
+   private int readLength = 0; // valid for i2c (number of bytes to read from I2C bus)
+
    private String bus = null;
 
    public static final String FEATURE_GPIO = "gpio";
@@ -113,6 +116,14 @@ public class BulldogEndpoint extends DefaultEndpoint {
 
    public void setAddress(String address) {
       this.address = address;
+   }
+
+   public int getReadLength() {
+      return this.readLength;
+   }
+
+   public void setReadLength(int readLength) {
+      this.readLength = readLength;
    }
 
    public long getPulseInMicroseconds() {
