@@ -2,6 +2,7 @@ package io.silverspoon;
 
 import org.apache.camel.CamelException;
 import org.apache.camel.Exchange;
+import org.apache.camel.Message;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -31,12 +32,14 @@ public class I2cProducer extends BulldogProducer {
    public void process(Exchange exchange) throws Exception {
       final int length = getEndpoint().getReadLength();
       final byte[] buffer = new byte[length];
+      final Message message = exchange.getIn();
+      final String address = message.getHeader("address").toString();
       synchronized (lock) {
          if(log.isDebugEnabled()){
-            log.debug("Initializing I2C connection to address: " + getEndpoint().getAddress());
+            log.debug("Initializing I2C connection to address: " + address);
          }
-         final I2cConnection connection = i2c.createI2cConnection(Byte.decode(getEndpoint().getAddress()));
-         final String body = exchange.getIn().getBody().toString();
+         final I2cConnection connection = i2c.createI2cConnection(Byte.decode(address));
+         final String body = message.getBody().toString();
          final Matcher bodyMatcher = BODY_PATTERN.matcher(body);
          try {
             if (bodyMatcher.matches()) {
