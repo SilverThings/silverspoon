@@ -44,34 +44,35 @@ public class I2cProducer extends BulldogProducer {
          try {
             if (bodyMatcher.matches()) {
                byte[] requestBuffer = new byte[body.length() / 2];
-               if(log.isDebugEnabled()){
-                  log.debug("Preparing I2C message");
+               if(log.isTraceEnabled()){
+                  log.trace("Preparing I2C message");
                }
+
                for (int i = 0; i < requestBuffer.length; i++) {
                   final String value = "0x" + body.substring(2 * i, 2 * (i + 1));
                   requestBuffer[i] = Integer.decode(value).byteValue();
-                  if(log.isDebugEnabled()){
-                     log.debug("Appending byte: " + value);
+                  if(log.isTraceEnabled()){
+                     log.trace("Appending byte: " + value);
                   }
                }
-               if(log.isDebugEnabled()){
-                  log.debug("Sending I2C message...");
+               if(log.isTraceEnabled()){
+                  log.trace("Sending I2C message...");
                }
                connection.writeBytes(requestBuffer);
-               if(log.isDebugEnabled()){
-                  log.debug("I2C message sent");
+               if(log.isTraceEnabled()){
+                  log.trace("I2C message sent");
                }
                if (length > 0) {
-                  if(log.isDebugEnabled()){
-                     log.debug("Recieving I2C response: ");
+                  if(log.isTraceEnabled()){
+                     log.trace("Recieving I2C response: ");
                   }
                   connection.readBytes(buffer);
                   final StringBuffer response = new StringBuffer();
                   for (int i = 0; i < length; i++) {
                      response.append(Integer.toHexString(buffer[i]));
                   }
-                  if(log.isDebugEnabled()){
-                     log.debug(response);
+                  if(log.isTraceEnabled()){
+                     log.trace(response);
                   }
                   exchange.getIn().setBody(response.toString());
                } else {
