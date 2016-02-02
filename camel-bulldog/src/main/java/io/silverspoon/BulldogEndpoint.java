@@ -43,6 +43,9 @@ public class BulldogEndpoint extends DefaultEndpoint {
    @UriPath
    private int readLength = 0; // valid for i2c (number of bytes to read from I2C bus)
 
+   @UriPath
+   private boolean batch = false; // valid i2c (wheather the message is a single I2C message or a batch of messages
+
    private String bus = null;
 
    public static final String FEATURE_GPIO = "gpio";
@@ -132,5 +135,13 @@ public class BulldogEndpoint extends DefaultEndpoint {
 
    public void setBus(String bus) {
       this.bus = bus;
+   }
+
+   public boolean isBatch() {
+      return batch;
+   }
+
+   public void setBatch(final boolean batch) {
+      this.batch = batch;
    }
 }
