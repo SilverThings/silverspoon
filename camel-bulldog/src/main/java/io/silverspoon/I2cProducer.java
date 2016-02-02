@@ -30,67 +30,72 @@ public class I2cProducer extends BulldogProducer {
    }
 
    public void process(Exchange exchange) throws Exception {
-      final int length = getEndpoint().getReadLength();
-      final byte[] buffer = new byte[length];
       final Message message = exchange.getIn();
       final String address = message.getHeader("address").toString();
       synchronized (lock) {
-         if(log.isDebugEnabled()){
+         if (log.isDebugEnabled()) {
             log.debug("Initializing I2C connection to address: " + address);
          }
-         final I2cConnection connection = i2c.createI2cConnection(Byte.decode(address));
+
          final String body = message.getBody().toString();
          final Matcher bodyMatcher = BODY_PATTERN.matcher(body);
 
          if (bodyMatcher.matches()) {
-            try {
-               byte[] requestBuffer = new byte[body.length() / 2];
-               if(log.isTraceEnabled()){
-                  log.trace("Preparing I2C message");
-               }
-
-               for (int i = 0; i < requestBuffer.length; i++) {
-                  final String value = "0x" + body.substring(2 * i, 2 * (i + 1));
-                  requestBuffer[i] = Integer.decode(value).byteValue();
-                  if(log.isTraceEnabled()){
-                     log.trace("Appending byte: " + value);
-                  }
-               }
-               if(log.isTraceEnabled()){
-                  log.trace("Sending I2C message...");
-               }
-               connection.writeBytes(requestBuffer);
-               if(log.isTraceEnabled()){
-                  log.trace("I2C message sent");
-               }
-            } catch (IOException ioe) {
-               ioe.printStackTrace();
-               throw new IOException("Unable to write values to I2C bus (" + i2c.getName() + ") at address " + address + "!");
-            }
-            try {
-               if (length > 0) {
-                  if(log.isTraceEnabled()){
-                     log.trace("Recieving I2C response: ");
-                  }
-                  connection.readBytes(buffer);
-                  final StringBuffer response = new StringBuffer();
-                  for (int i = 0; i < length; i++) {
-                     response.append(Integer.toHexString(buffer[i]));
-                  }
-                  if(log.isTraceEnabled()){
-                     log.trace(response);
-                  }
-                  exchange.getIn().setBody(response.toString());
-               } else {
-                  exchange.getIn().setBody("OK");
-               }
-            } catch (IOException ioe) {
-               ioe.printStackTrace();
-               throw new IOException("Unable to read values from I2C bus (" + i2c.getName() + ") at address " + address + "!");
-            }
+            exchange.getIn().setBody(send(address, body));
          } else {
             throw new CamelException("Message body [" + body + "] is invalid. It should be a sequence of hexadecimal character pairs.");
          }
+      }
+   }
+
+   private String send(final String address, final String msg) throws Exception {
+      final int length = getEndpoint().getReadLength();
+      final byte[] buffer = new byte[length];
+      final I2cConnection connection = i2c.createI2cConnection(Byte.decode(address));
+      try {
+         byte[] requestBuffer = new byte[msg.length() / 2];
+         if (log.isTraceEnabled()) {
+            log.trace("Preparing I2C message");
+         }
+
+         for (int i = 0; i < requestBuffer.length; i++) {
+            final String value = "0x" + msg.substring(2 * i, 2 * (i + 1));
+            requestBuffer[i] = Integer.decode(value).byteValue();
+            if (log.isTraceEnabled()) {
+               log.trace("Appending byte: " + value);
+            }
+         }
+         if (log.isTraceEnabled()) {
+            log.trace("Sending I2C message...");
+         }
+         connection.writeBytes(requestBuffer);
+         if (log.isTraceEnabled()) {
+            log.trace("I2C message sent");
+         }
+      } catch (IOException ioe) {
+         ioe.printStackTrace();
+         throw new IOException("Unable to write values to I2C bus (" + i2c.getName() + ") at address " + address + "!");
+      }
+      try {
+         if (length > 0) {
+            if (log.isTraceEnabled()) {
+               log.trace("Recieving I2C response: ");
+            }
+            connection.readBytes(buffer);
+            final StringBuffer response = new StringBuffer();
+            for (int i = 0; i < length; i++) {
+               response.append(Integer.toHexString(buffer[i]));
+            }
+            if (log.isTraceEnabled()) {
+               log.trace(response);
+            }
+            return response.toString();
+         } else {
+            return "OK";
+         }
+      } catch (IOException ioe) {
+         ioe.printStackTrace();
+         throw new IOException("Unable to read values from I2C bus (" + i2c.getName() + ") at address " + address + "!");
       }
    }
 }
