@@ -31,7 +31,7 @@ public class I2cProducer extends BulldogProducer {
 
    public void process(Exchange exchange) throws Exception {
       final Message message = exchange.getIn();
-      final String address = message.getHeader("address").toString();
+      final String address = (String) message.getHeader("address");
 
       final String body = message.getBody().toString();
       final StringBuffer response = new StringBuffer();
