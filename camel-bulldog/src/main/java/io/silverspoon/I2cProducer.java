@@ -41,8 +41,9 @@ public class I2cProducer extends BulldogProducer {
          final I2cConnection connection = i2c.createI2cConnection(Byte.decode(address));
          final String body = message.getBody().toString();
          final Matcher bodyMatcher = BODY_PATTERN.matcher(body);
-         try {
-            if (bodyMatcher.matches()) {
+
+         if (bodyMatcher.matches()) {
+            try {
                byte[] requestBuffer = new byte[body.length() / 2];
                if(log.isTraceEnabled()){
                   log.trace("Preparing I2C message");
@@ -62,6 +63,11 @@ public class I2cProducer extends BulldogProducer {
                if(log.isTraceEnabled()){
                   log.trace("I2C message sent");
                }
+            } catch (IOException ioe) {
+               ioe.printStackTrace();
+               throw new IOException("Unable to write values to I2C bus (" + i2c.getName() + ") at address " + address + "!");
+            }
+            try {
                if (length > 0) {
                   if(log.isTraceEnabled()){
                      log.trace("Recieving I2C response: ");
@@ -78,12 +84,12 @@ public class I2cProducer extends BulldogProducer {
                } else {
                   exchange.getIn().setBody("OK");
                }
-            } else {
-               throw new CamelException("Message body [" + body + "] is invalid. It should be a sequence of hexadecimal character pairs.");
+            } catch (IOException ioe) {
+               ioe.printStackTrace();
+               throw new IOException("Unable to read values from I2C bus (" + i2c.getName() + ") at address " + address + "!");
             }
-         } catch (IOException ioe) {
-            ioe.printStackTrace();
-            throw new IOException("Unable to read values from I2C bus (" + i2c.getName() + ")!");
+         } else {
+            throw new CamelException("Message body [" + body + "] is invalid. It should be a sequence of hexadecimal character pairs.");
          }
       }
    }
