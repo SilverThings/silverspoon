@@ -33,16 +33,22 @@ public class I2cProducer extends BulldogProducer {
       final Message message = exchange.getIn();
       final String address = (String) message.getHeader("address");
 
-      final String body = message.getBody().toString();
+      final Object rawBody = message.getBody();
       final StringBuffer response = new StringBuffer();
-      if (getEndpoint().isBatch()) {
-         final String[] batchLines = body.split("\n");
-         for (String batchLine : batchLines) {
-            response.append(send(address, batchLine));
-            response.append("\n");
+
+      if (rawBody != null) {
+         final String body = (String) rawBody;
+         if (getEndpoint().isBatch()) {
+            final String[] batchLines = body.split("\n");
+            for (String batchLine : batchLines) {
+               response.append(send(address, batchLine));
+               response.append("\n");
+            }
+         } else {
+            response.append(send(address, body));
          }
       } else {
-         response.append(send(address, body));
+         response.append(send(address, ""));
       }
 
       exchange.getIn().setBody(response.toString());
