@@ -70,14 +70,15 @@ public class I2cProducer extends BulldogProducer {
       }
       final int length = getEndpoint().getReadLength();
       final byte[] buffer = new byte[length];
-      if (log.isDebugEnabled()) {
-         log.debug("Initializing I2C connection to address: " + address);
+      if (log.isTraceEnabled()) {
+         log.trace("Initializing I2C connection to address: " + address);
       }
 
       synchronized (i2cAccessLock) {
          final I2cConnection connection = i2c.createI2cConnection(Byte.decode(address));
          try {
             byte[] requestBuffer = new byte[msg.length() / 2];
+
             if (log.isTraceEnabled()) {
                log.trace("Preparing I2C message");
             }
