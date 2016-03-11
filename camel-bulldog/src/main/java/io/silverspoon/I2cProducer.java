@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cBus;
 import io.silverspoon.bulldog.core.io.bus.i2c.I2cConnection;
+import io.silverspoon.bulldog.core.util.BulldogUtil;
 
 /**
  * The I2C producer.
@@ -32,6 +33,7 @@ public class I2cProducer extends BulldogProducer {
    public void process(Exchange exchange) throws Exception {
       final Message message = exchange.getIn();
       final String address = (String) message.getHeader("address");
+      final Long batchDelay = (Long) message.getHeader("batchDelay");
 
       final Object rawBody = message.getBody();
       final StringBuffer response = new StringBuffer();
@@ -41,7 +43,7 @@ public class I2cProducer extends BulldogProducer {
          if (getEndpoint().isBatch()) {
             final String[] batchLines = body.split("\n");
             for (String batchLine : batchLines) {
-               response.append(send(address, batchLine));
+               response.append(send(address, batchLine, batchDelay));
                response.append("\n");
             }
          } else {
@@ -55,8 +57,15 @@ public class I2cProducer extends BulldogProducer {
    }
 
    private String send(final String address, final String msg) throws Exception {
+      return send(address, msg, 0L);
+   }
+
+   private String send(final String address, final String msg, final Long delay) throws Exception {
       if (address == null) {
          final String[] parts = msg.split(";");
+         if (delay != null && delay > 0) {
+            BulldogUtil.sleepMs(delay);
+         }
          return sendI2c(parts[0], parts[1]);
       } else {
          return sendI2c(address, msg);
