@@ -118,7 +118,7 @@ public class I2cProducer extends BulldogProducer {
                connection.readBytes(buffer);
                final StringBuffer response = new StringBuffer();
                for (int i = 0; i < length; i++) {
-                  response.append(Integer.toHexString(buffer[i]));
+                  response.append(String.format("%02X", buffer[i]));
                }
                if (log.isTraceEnabled()) {
                   log.trace(response);
